@@ -8,11 +8,11 @@ void QiniuUpLoadNoticeReq(THttpContent httpContent, TJson& jsonRes)
 
   type = jsonReq.getvalue('type','');
   /*
-  *type: 0 icon,1 im , 2 conference share document
+  *type: 0 icon,1 im group, 2 im point to point , 3 conference share document
   */
   if(type == '0') //icon
   {
-
+    HandleUserIconNotice(httpContent, jsonRes);
   }
   else if(type == '1')
   {
@@ -61,7 +61,35 @@ void HandleIMNotice()
 {
 
 }
-void HandleConfNotice()
+void HandleConfNotice(THttpContent httpContent, TJson& jsonRes)
 {
+  var TJson jsonReq;
+  var TString key,filename,filesize,mimetype,filetype,requestname,requestnum,uploadtime,type,cid,confid,sql;
+  var TString msg;
+  var TInteger ret;
+  jsonReq = httpContent.getjsonbody()；
+  filename = jsonReq.getvalue('filename','');
+  key =  jsonReq.getvalue('key','');
+  filesize = jsonReq.getvalue('filesize','');
+  mimetype = jsonReq.getvalue('mimetype','');
+  filetype = jsonReq.getvalue('filetype','');
+  requestname = jsonReq.getvalue('requestname','');
+  requestnum = jsonReq.getvalue('requestnum','');
+  uploadtime = jsonReq.getvalue('uploadtime','');
+  type = jsonReq.getvalue('type','');
+  cid = jsonReq.getvalue('clientfileid','')
+  confid  = jsonReq.getvalue('confid','')
 
+
+  sql = sprintf('insert into qiniures(key,filename,filesize,mimetype,filetype,requestname,requestnum,type,uploadtime)
+                            values(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')');
+  ret = sqlrun(sql);
+  if(ret < 0)
+  {
+    jsonRes.addchild('status', 'failed', '', 0);
+  }
+  
+
+  jsonRes.addchild('status', 'success', '', 0);
+  jsonRes.addchild('opType', _op_qiniu_upload_notice_res, '', 0);
 }
