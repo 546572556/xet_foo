@@ -7,4 +7,8 @@
 
 void QiniuUpLoadNoticeReq(THttpContent httpContent, TJson& jsonRes);
 void HandleUserIconNotice(THttpContent httpContent, TJson& jsonRes);
+void HandleConfNotice(THttpContent httpContent, TJson& jsonRes);
+
+TInteger sendSync(TString destUrl, TString buf);
+
 #endif
