@@ -112,7 +112,6 @@ void HandleConfNotice(THttpContent httpContent, TJson& jsonRes)
   cid = jsonReq.getvalue('clientfileid','')
   confid  = jsonReq.getvalue('confid','')
 
-
   sql = sprintf('insert into qiniures(key,filename,filesize,mimetype,filetype,requestname,requestnum,type,uploadtime)
                             values(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')',key, filename, filesize, mimetype,filetype, requestname, requestnum, type, uploadtime);
   ret = sqlrun(sql);
